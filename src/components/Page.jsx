@@ -7,7 +7,7 @@ const Page = (prop) => {
         <button className="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded disabled:opacity-50 disabled:cursor-not-allowed">
           Previous
         </button>
-        {prop.page + 1}
+        <span className="m-4 text-2xl">{prop.page + 1}</span>
         <button className="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded disabled:opacity-50 disabled:cursor-not-allowed ml-4">
           Next
         </button>
