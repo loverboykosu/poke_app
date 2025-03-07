@@ -1,14 +1,20 @@
 import React from "react";
 
-const Page = (prop) => {
+const Page = (props) => {
   return (
     <>
       <div className="mt-8 flex justify-center">
-        <button className="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded disabled:opacity-50 disabled:cursor-not-allowed">
+        <button
+          onClick={props.onPrev}
+          className="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded disabled:opacity-50 disabled:cursor-not-allowed"
+        >
           Previous
         </button>
-        <span className="m-4 text-2xl">{prop.page + 1}</span>
-        <button className="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded disabled:opacity-50 disabled:cursor-not-allowed ml-4">
+        <span className="m-4 text-2xl">{props.page + 1}</span>
+        <button
+          onClick={props.onNext}
+          className="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded disabled:opacity-50 disabled:cursor-not-allowed ml-4"
+        >
           Next
         </button>
       </div>

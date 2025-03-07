@@ -19,15 +19,20 @@ const Poke = () => {
       return !prev;
     });
   };
+  const nextPage = () => {
+    setPage(page + 1);
+  };
+  const prevPage = () => {
+    setPage(page - 1);
+  };
   // const fetchPokeImages = async()
   return (
     <>
       <div className="bg-black">
         <h1 className="text-white text-center p-5 text-2xl">Poke app</h1>
       </div>
-      <div className="border-2 border-solid border-indigo-500 rounded-sm">
+      <div className="grid grid-cols-3 gap-10 border-2 border-solid border-indigo-500 rounded-sm">
         {/* <img src={isLoad ? pokeImage : null} alt="" /> */}
-        <h1 className="text-center">pokename</h1>
         {pokeList.map((item) => {
           return (
             <div key={item.name}>
@@ -39,7 +44,7 @@ const Poke = () => {
           );
         })}
       </div>
-      <Page page={page} />
+      <Page onPrev={prevPage} onNext={nextPage} page={page} />
     </>
   );
 };
