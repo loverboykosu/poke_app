@@ -9,19 +9,17 @@ const Poke = () => {
   const [isLoad, setIsLoad] = useState(false);
   useEffect(() => {
     fetchPokeList();
-  }, []);
+  }, [page]);
   const fetchPokeList = async () => {
     const offset = page * 20;
     const apiUrl = `https://pokeapi.co/api/v2/pokemon/?limit=20&offset=${offset}`;
     const result = await axios.get(apiUrl);
-    const pokeNames = result.data.results.map((item) => {
-      return item.name;
-    });
-    setPokeList(pokeNames);
+    setPokeList(result.data.results);
     setIsLoad((prev) => {
       return !prev;
     });
   };
+  // const fetchPokeImages = async()
   return (
     <>
       <div className="bg-black">
@@ -29,16 +27,19 @@ const Poke = () => {
       </div>
       <div className="border-2 border-solid border-indigo-500 rounded-sm">
         {/* <img src={isLoad ? pokeImage : null} alt="" /> */}
-        <h2 className="text-center">pokename</h2>
+        <h1 className="text-center">pokename</h1>
         {pokeList.map((item) => {
           return (
-            <p className="text-center" key={item}>
-              {item}
-            </p>
+            <div key={item.name}>
+              <p className="text-center">{item.name}</p>
+              <p className="text-center text-blue-600/100 dark:text-sky-400/100">
+                {item.url}
+              </p>
+            </div>
           );
         })}
       </div>
-      <Page />
+      <Page page={page} />
     </>
   );
 };
