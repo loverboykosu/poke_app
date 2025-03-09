@@ -31,18 +31,15 @@ const Poke = () => {
       <div className="bg-black">
         <h1 className="text-white text-center p-5 text-2xl">Poke app</h1>
       </div>
-      <div className="grid grid-cols-3 gap-10">
+      <div className="grid grid-cols-4 gap-10">
         {/* <img src={isLoad ? pokeImage : null} alt="" /> */}
         {pokeList.map((item) => {
           return (
-            <div key={item.name}>
-              <p className="text-center">{item.name}</p>
-              <a
-                href={item.url}
-                className="text-center text-blue-600/100 dark:text-sky-400/100"
-              >
-                {item.url}
-              </a>
+            <div key={item.name} className="text-center">
+              <p>{item.name}</p>
+              <div className="text-sky-400">
+                <a href={item.url}>{item.url}</a>
+              </div>
             </div>
           );
         })}
