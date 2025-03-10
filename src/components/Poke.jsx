@@ -66,13 +66,10 @@ const Poke = () => {
             <div key={item.name} className="text-center">
               <p>{item.name}</p>
               <img
-                src={isLoad ? pokeImage[index] : null}
+                src={pokeImage[index] ? pokeImage[index] : "./dummy.png"}
                 alt=""
                 className="mx-auto"
               />
-              <div className="text-sky-400">
-                <a href={item.url}>{item.url}</a>
-              </div>
             </div>
           );
         })}
