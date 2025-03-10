@@ -7,6 +7,8 @@ const Poke = () => {
   const [pokeList, setPokeList] = useState([]);
   const [pokeImage, setPokeImage] = useState([]);
   const [isLoad, setIsLoad] = useState(false);
+  const [hasPrev, setHasPrev] = useState(false);
+  const [hasNext, setHasNext] = useState(false);
   useEffect(() => {
     fetchPokeList();
   }, [page]);
@@ -18,7 +20,12 @@ const Poke = () => {
     const offset = page * 20;
     const apiUrl = `https://pokeapi.co/api/v2/pokemon/?limit=20&offset=${offset}`;
     const result = await axios.get(apiUrl);
-    setPokeList(result.data.results);
+    if (result.data.results.length > 0) {
+      setHasNext(true);
+      setPokeList(result.data.results);
+    } else {
+      setHasNext(false);
+    }
   };
   const fetchPokeImage = async () => {
     if (pokeList.length) {
@@ -33,10 +40,19 @@ const Poke = () => {
     setIsLoad(true);
   };
   const nextPage = () => {
-    setPage(page + 1);
+    setPage((prev) => {
+      if (prev >= 0) {
+        setHasPrev(true);
+        return prev + 1;
+      } else {
+        setHasPrev(false);
+      }
+    });
   };
   const prevPage = () => {
-    setPage(page - 1);
+    setPage((prev) => {
+      return prev - 1;
+    });
   };
   // const fetchPokeImages = async()
   return (
@@ -61,7 +77,11 @@ const Poke = () => {
           );
         })}
       </div>
-      <Page onPrev={prevPage} onNext={nextPage} page={page} />
+      <Page
+        onPrev={hasPrev ? prevPage : null}
+        onNext={hasNext ? nextPage : null}
+        page={page}
+      />
     </>
   );
 };
