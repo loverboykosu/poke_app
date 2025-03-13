@@ -3,6 +3,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import Page from "./Page.jsx";
 import Search from "./Search.jsx";
+import poke from "../lib/poke.jsx";
 const Poke = () => {
   const [page, setPage] = useState(0);
   const [pokeList, setPokeList] = useState([]);
@@ -20,7 +21,7 @@ const Poke = () => {
   const fetchPokeList = async () => {
     const offset = page * 20;
     const apiUrl = `https://pokeapi.co/api/v2/pokemon/?limit=20&offset=${offset}`;
-    const result = await axios.get(apiUrl);
+    const result = await poke.fetchData(apiUrl);
     if (result.data.results.length > 0) {
       setHasNext(true);
       setPokeList(result.data.results);
@@ -32,8 +33,8 @@ const Poke = () => {
     if (pokeList.length) {
       const pokeImages = await Promise.all(
         pokeList.map(async (item) => {
-          const response = await axios.get(item.url);
-          return response.data.sprites.front_default; // 画像URLを取得
+          const response = await poke.fetchData(item.url);
+          return response.data.sprites.front_default;
         })
       );
       setPokeImage(pokeImages); // 画像URLの配列をセット
