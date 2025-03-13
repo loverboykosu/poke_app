@@ -8,6 +8,7 @@ const Poke = () => {
   const [page, setPage] = useState(0);
   const [pokeList, setPokeList] = useState([]);
   const [pokeImage, setPokeImage] = useState([]);
+  const [searchWord, setSearWord] = useState();
   const [isLoad, setIsLoad] = useState(false);
   const [hasPrev, setHasPrev] = useState(false);
   const [hasNext, setHasNext] = useState(false);
@@ -55,6 +56,11 @@ const Poke = () => {
     setPage((prev) => {
       return prev - 1;
     });
+  };
+  //search
+  const searchPoke = async () => {
+    const searchPokeUrl = "https://pokeapi.co/api/v2/pokemon/";
+    const searchPokeList = await axios.fetchData(searchPokeUrl);
   };
   // const fetchPokeImages = async()
   return (
