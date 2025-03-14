@@ -8,10 +8,10 @@ const Poke = () => {
   const [page, setPage] = useState(0);
   const [pokeList, setPokeList] = useState([]);
   const [pokeImage, setPokeImage] = useState([]);
-  const [searchWord, setSearWord] = useState();
   const [isLoad, setIsLoad] = useState(false);
   const [hasPrev, setHasPrev] = useState(false);
   const [hasNext, setHasNext] = useState(false);
+  const [searchWord, setSearchWord] = useState("");
   useEffect(() => {
     fetchPokeList();
   }, [page]);
@@ -57,10 +57,14 @@ const Poke = () => {
       return prev - 1;
     });
   };
+  const getInput = (e) => {
+    setSearchWord(e.target.value);
+  };
   //search
   const searchPoke = async () => {
-    const searchPokeUrl = "https://pokeapi.co/api/v2/pokemon/";
-    const searchPokeList = await axios.fetchData(searchPokeUrl);
+    const searchPokeUrl = "https://pokeapi.co/api/v2/pokemon/" + searchWord;
+    const searchPokeResult = await poke.fetchData(searchPokeUrl);
+    console.log(searchPokeResult);
   };
   // const fetchPokeImages = async()
   return (
@@ -69,7 +73,7 @@ const Poke = () => {
         <h1 className="text-white text-center p-5 text-2xl">Poke app</h1>
       </div>
       <div>
-        <Search />
+        <Search onInputChange={getInput} onSubmit={searchPoke} />
       </div>
 
       <div className="grid grid-cols-4 gap-10">
