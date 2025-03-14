@@ -12,6 +12,8 @@ const Poke = () => {
   const [hasPrev, setHasPrev] = useState(false);
   const [hasNext, setHasNext] = useState(false);
   const [searchWord, setSearchWord] = useState("");
+  const [searchStatus, setSearchStatus] = useState(false);
+  const [searchResult, setSearchResult] = useState();
   useEffect(() => {
     fetchPokeList();
   }, [page]);
@@ -59,14 +61,17 @@ const Poke = () => {
   };
   const getInput = (e) => {
     setSearchWord(e.target.value);
+    console.log(searchStatus);
   };
   //search
   const searchPoke = async () => {
     const searchPokeUrl = "https://pokeapi.co/api/v2/pokemon/" + searchWord;
-    const searchPokeResult = await poke.fetchData(searchPokeUrl);
-    console.log(searchPokeResult);
+    const searchResults = await poke.fetchData(searchPokeUrl);
+    if (searchResults.data.id) {
+      setSearchStatus(true);
+      setSearchResult(searchResults.data.sprites.front_default);
+    }
   };
-  // const fetchPokeImages = async()
   return (
     <>
       <div className="bg-black">
@@ -75,26 +80,41 @@ const Poke = () => {
       <div>
         <Search onInputChange={getInput} onSubmit={searchPoke} />
       </div>
-
-      <div className="grid grid-cols-4 gap-10">
-        {pokeList.map((item, index) => {
-          return (
-            <div key={item.name} className="text-center">
-              <img
-                src={pokeImage[index] ? pokeImage[index] : "./dummy.png"}
-                alt=""
-                className="mx-auto"
-              />
-              <p>{item.name}</p>
-            </div>
-          );
-        })}
-      </div>
-      <Page
-        onPrev={hasPrev ? prevPage : null}
-        onNext={hasNext ? nextPage : null}
-        page={page}
-      />
+      {searchStatus && (
+        <>
+          <div className="text-center">
+            <img
+              src={searchResult ? searchResult : "./dummy.png"}
+              alt=""
+              className="mx-auto"
+            />
+            <p>{searchWord}</p>
+          </div>
+        </>
+      )}
+      {!searchStatus && (
+        <>
+          <div className="grid grid-cols-4 gap-10">
+            {pokeList.map((item, index) => {
+              return (
+                <div key={item.name} className="text-center">
+                  <img
+                    src={pokeImage[index] ? pokeImage[index] : "./dummy.png"}
+                    alt=""
+                    className="mx-auto"
+                  />
+                  <p>{item.name}</p>
+                </div>
+              );
+            })}
+          </div>
+          <Page
+            onPrev={hasPrev ? prevPage : null}
+            onNext={hasNext ? nextPage : null}
+            page={page}
+          />
+        </>
+      )}
     </>
   );
 };
