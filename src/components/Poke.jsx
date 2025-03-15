@@ -15,11 +15,11 @@ const Poke = () => {
   const [searchResult, setSearchResult] = useState();
   useEffect(() => {
     fetchPokeList();
-  }, [page]);
+  }, [page, searchStatus]);
 
   useEffect(() => {
     fetchPokeImage();
-  }, [pokeList]);
+  }, [pokeList, searchStatus]);
   const fetchPokeList = async () => {
     const offset = page * 20;
     const apiUrl = `https://pokeapi.co/api/v2/pokemon/?limit=20&offset=${offset}`;
@@ -71,6 +71,9 @@ const Poke = () => {
       setSearchResult(searchResults.data.sprites.front_default);
     }
   };
+  const getBack = () => {
+    setSearchStatus(false);
+  };
   return (
     <>
       <div className="bg-black">
@@ -88,6 +91,13 @@ const Poke = () => {
               className="mx-auto"
             />
             <p>{searchWord}</p>
+
+            <button
+              className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+              onClick={getBack}
+            >
+              return
+            </button>
           </div>
         </>
       )}
