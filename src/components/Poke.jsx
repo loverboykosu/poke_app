@@ -60,7 +60,6 @@ const Poke = () => {
   };
   const getInput = (e) => {
     setSearchWord(e.target.value);
-    console.log(searchStatus);
   };
   //search
   const searchPoke = async () => {
@@ -79,9 +78,7 @@ const Poke = () => {
       <div className="bg-black">
         <h1 className="text-white text-center p-5 text-2xl">Poke app</h1>
       </div>
-      <div>
-        <Search onInputChange={getInput} onSubmit={searchPoke} />
-      </div>
+
       {searchStatus && (
         <>
           <div className="text-center">
@@ -103,6 +100,9 @@ const Poke = () => {
       )}
       {!searchStatus && (
         <>
+          <div>
+            <Search onInputChange={getInput} onSubmit={searchPoke} />
+          </div>
           <div className="grid grid-cols-4 gap-10">
             {pokeList.map((item, index) => {
               return (
