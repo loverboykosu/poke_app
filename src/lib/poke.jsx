@@ -7,8 +7,12 @@ class PokeClient {
     return poke;
   }
   async fetchData(apiUrl) {
-    const result = await axios.get(apiUrl);
-    return result;
+    try {
+      const result = await axios.get(apiUrl);
+      return result;
+    } catch (error) {
+      return error;
+    }
   }
 }
 

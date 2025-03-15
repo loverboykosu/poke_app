@@ -13,6 +13,7 @@ const Poke = () => {
   const [searchWord, setSearchWord] = useState("");
   const [searchStatus, setSearchStatus] = useState(false);
   const [searchResult, setSearchResult] = useState();
+  const [isPoke, setIsPoke] = useState();
   useEffect(() => {
     fetchPokeList();
   }, [page, searchStatus]);
@@ -65,7 +66,10 @@ const Poke = () => {
   const searchPoke = async () => {
     const searchPokeUrl = "https://pokeapi.co/api/v2/pokemon/" + searchWord;
     const searchResults = await poke.fetchData(searchPokeUrl);
-    if (searchResults.data.id) {
+    if (searchResults.message) {
+      setSearchStatus(true);
+      setIsPoke(false);
+    } else if (searchResults.data.id) {
       setSearchStatus(true);
       setSearchResult(searchResults.data.sprites.front_default);
     }
@@ -82,6 +86,9 @@ const Poke = () => {
       {searchStatus && (
         <>
           <div className="text-center">
+            {!isPoke && (
+              <h1 className="text-center">{searchWord} does not exist</h1>
+            )}
             <img
               src={searchResult ? searchResult : "./dummy.png"}
               alt=""
